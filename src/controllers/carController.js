@@ -2,6 +2,7 @@ import { Router } from "express";
 import errorMsg from "../utils/errorMsg.js";
 import carService from "../services/carService.js";
 import userService from "../services/userService.js";
+import authMiddleware from "../middlewares/authMiddleware.js";
 
 const carController = Router();
 
@@ -15,10 +16,10 @@ carController.get("/catalog", async (req, res) => {
     res.render("car/all-posts", { error });
   }
 });
-carController.get("/create", (req, res) => {
+carController.get("/create", authMiddleware.isAuth, (req, res) => {
   res.render("car/create");
 });
-carController.post("/create", async (req, res) => {
+carController.post("/create", authMiddleware.isAuth, async (req, res) => {
   const carData = req.body;
   const userId = req.user?.id;
   try {
@@ -30,7 +31,7 @@ carController.post("/create", async (req, res) => {
   }
 });
 
-carController.get("/:carId/like", async (req, res) => {
+carController.get("/:carId/like", authMiddleware.isAuth, async (req, res) => {
   const carId = req.params.carId;
   const userId = req.user?.id;
 
@@ -84,7 +85,7 @@ carController.get("/:carId/details", async (req, res) => {
   }
 });
 
-carController.get("/:carId/edit", async (req, res) => {
+carController.get("/:carId/edit", authMiddleware.isAuth, async (req, res) => {
   const carId = req.params.carId;
 
   try {
@@ -96,7 +97,7 @@ carController.get("/:carId/edit", async (req, res) => {
     res.render("404", { error });
   }
 });
-carController.post("/:carId/edit", async (req, res) => {
+carController.post("/:carId/edit", authMiddleware.isAuth, async (req, res) => {
   const carId = req.params.carId;
   const carData = req.body;
 
@@ -116,7 +117,7 @@ carController.post("/:carId/edit", async (req, res) => {
   }
 });
 
-carController.get("/:carId/delete", async (req, res) => {
+carController.get("/:carId/delete", authMiddleware.isAuth, async (req, res) => {
   const carId = req.params.carId;
 
   try {
