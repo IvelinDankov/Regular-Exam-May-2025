@@ -28,7 +28,7 @@ userController.post("/register", authMiddleware.guard, async (req, res) => {
   } catch (err) {
     const error = errorMsg(err);
 
-    res.render("user/register", { username, email, error });
+    res.render("user/register", { firstName, lastName, email, error });
   }
 });
 
