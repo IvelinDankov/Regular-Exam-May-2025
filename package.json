@@ -10,7 +10,7 @@
   "keywords": [],
   "author": "VD",
   "license": "ISC",
-  "description": "",
+  "description": "BackEnd may 2025 SoftUni-Make it by Velin Dankov",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",

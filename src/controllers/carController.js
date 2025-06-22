@@ -100,6 +100,7 @@ carController.get("/:carId/edit", authMiddleware.isAuth, async (req, res) => {
 carController.post("/:carId/edit", authMiddleware.isAuth, async (req, res) => {
   const carId = req.params.carId;
   const carData = req.body;
+  const userId = req.user?.id;
 
   try {
     const car = await carService.getOne(carId);
@@ -119,6 +120,7 @@ carController.post("/:carId/edit", authMiddleware.isAuth, async (req, res) => {
 
 carController.get("/:carId/delete", authMiddleware.isAuth, async (req, res) => {
   const carId = req.params.carId;
+  const userId = req.user?.id;
 
   try {
     const car = await carService.getOne(carId);
