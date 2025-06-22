@@ -22,4 +22,7 @@ export default {
   removeCar(carId) {
     return Car.findByIdAndDelete(carId);
   },
+  getMyPosts(userId) {
+    return Car.find({ owner: userId });
+  },
 };
