@@ -61,7 +61,75 @@ carController.get("/:carId/details", async (req, res) => {
 
     const totalLikes = car.likes.length;
 
-    res.render("car/details", { car, isOwner, liked, totalLikes });
+    let hasLikes = true;
+    if (totalLikes === 0) {
+      hasLikes = false;
+    }
+
+    const carLikes = await carService.findLikes(car);
+
+    const likedUsers = carLikes.likes.map((like) => like.email).join(", ");
+
+    res.render("car/details", {
+      car,
+      isOwner,
+      liked,
+      totalLikes,
+      hasLikes,
+      likedUsers,
+    });
+  } catch (err) {
+    const error = errorMsg(err);
+    res.render("404", { error });
+  }
+});
+
+carController.get("/:carId/edit", async (req, res) => {
+  const carId = req.params.carId;
+
+  try {
+    const car = await carService.getOne(carId);
+
+    res.render("car/edit", { car });
+  } catch (err) {
+    const error = errorMsg(err);
+    res.render("404", { error });
+  }
+});
+carController.post("/:carId/edit", async (req, res) => {
+  const carId = req.params.carId;
+  const carData = req.body;
+
+  try {
+    const car = await carService.getOne(carId);
+
+    const isOwner = car.owner.equals(userId);
+
+    if (!isOwner) {
+      throw new Error("Access is denied! You are not Owner!");
+    }
+    await carService.updateCar(carId, carData);
+    res.redirect(`/cars/${carId}/details`);
+  } catch (err) {
+    const error = errorMsg(err);
+    res.render("404", { error });
+  }
+});
+
+carController.get("/:carId/delete", async (req, res) => {
+  const carId = req.params.carId;
+
+  try {
+    const car = await carService.getOne(carId);
+
+    const isOwner = car.owner.equals(userId);
+
+    if (!isOwner) {
+      throw new Error("Access is denied! You are not Owner!");
+    }
+
+    await carService.removeCar(carId);
+    res.redirect("/cars/catalog");
   } catch (err) {
     const error = errorMsg(err);
     res.render("404", { error });

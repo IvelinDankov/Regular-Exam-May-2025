@@ -13,4 +13,13 @@ export default {
   like(carId, userId) {
     return Car.findByIdAndUpdate(carId, { $push: { likes: userId } });
   },
+  updateCar(carId, carData) {
+    return Car.findByIdAndUpdate(carId, carData);
+  },
+  findLikes(car) {
+    return Car.findOne(car).populate("likes", "email");
+  },
+  removeCar(carId) {
+    return Car.findByIdAndDelete(carId);
+  },
 };

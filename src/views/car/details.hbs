@@ -53,7 +53,7 @@
           <!-- Show the rating of likes, if there are no likes yet, the number must be 0. -->
           <p class="PV">Total likes: {{totalLikes}} </p>
         </div>
-        <p class="disc">People who liked the post - No one has liked yet.</p>
+        <p class="disc">{{#if hasLikes}} People who liked the post - {{likedUsers}}  {{else}} No one has liked yet. {{/if}} </p>
         <!-- If there are already people who have cast their like for the post, separate their emails with a comma and a space ", " -->
         <!-- <p class="disc">People who liked the post - alex@gmai.com, petar@gmail.com, petq@gmail.com</p>-->
       </div>
