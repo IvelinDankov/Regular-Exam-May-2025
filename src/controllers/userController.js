@@ -20,11 +20,11 @@ userController.post("/register", authMiddleware.guard, async (req, res) => {
 
     await userService.register(firstName, lastName, email, password, rePass);
 
-    // const token = await userService.login(email, password);
+    const token = await userService.login(email, password);
 
-    // res.cookie(AUTH_COOKIE, token);
+    res.cookie(AUTH_COOKIE, token);
 
-    res.redirect("/users/login");
+    res.redirect("/");
   } catch (err) {
     const error = errorMsg(err);
 
